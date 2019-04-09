@@ -6,7 +6,7 @@ $(()=>{
                 $('#vendorList').append(
                   `<li class='list-group-item'> ${vendor.name}</li>`
                 )
-              }
+            }
         })
     }
     refreshList()
