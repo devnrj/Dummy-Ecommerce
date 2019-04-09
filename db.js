@@ -7,15 +7,6 @@ const db = new Sequelize({
 
 })
 
-sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
-
 const User=db.define('User',{
     name:{
         type: Sequelize.STRING,
@@ -35,8 +26,8 @@ const Product=db.define('Product',{
         type: Sequelize.STRING,
         allowNull: false
     },
-    vendorID:{
-        type: Sequelize.NUMBER,
+    vendor:{
+        type: Sequelize.STRING,
         allowNull: false
     },
     price:{
@@ -49,8 +40,8 @@ const Product=db.define('Product',{
     },
 })
 
-Vendor.HasMany(Product);
-Product.BelongsTo(Vendor);
+Vendor.hasMany(Product);
+Product.belongsTo(Vendor);
 
 const Cart=db.define('Cart',{
     name:{
@@ -66,10 +57,10 @@ const Cart=db.define('Cart',{
         allowNull:false
     }
 })
-Cart.HasMany(Product);
-Product.BelongsTo(Cart);
-User.HasMany(Cart);
-Cart.BelongsTo(User);
+Cart.hasMany(Product);
+Product.belongsTo(Cart);
+User.hasMany(Cart);
+Cart.belongsTo(User);
 
 module.exports={
     db,User,Vendor,Product,Cart
