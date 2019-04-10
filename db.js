@@ -22,11 +22,7 @@ const Vendor=db.define('Vendor',{
 })
 
 const Product=db.define('Product',{
-    name:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    vendor:{
+    productName:{
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -40,14 +36,7 @@ const Product=db.define('Product',{
     },
 })
 
-Vendor.hasMany(Product);
-Product.belongsTo(Vendor);
-
 const Cart=db.define('Cart',{
-    name:{
-        type:Sequelize.STRING,
-        allowNull:false
-    },
     productId:{
         type:Sequelize.NUMBER,
         allowNull:false
@@ -57,9 +46,11 @@ const Cart=db.define('Cart',{
         allowNull:false
     }
 })
+Vendor.hasMany(Product,{onDelete:'cascade'});
+Product.belongsTo(Vendor);
 Cart.hasMany(Product);
 Product.belongsTo(Cart);
-User.hasMany(Cart);
+User.hasMany(Cart,{onDelete:'cascade'});
 Cart.belongsTo(User);
 
 module.exports={
