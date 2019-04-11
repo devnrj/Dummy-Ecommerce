@@ -37,22 +37,20 @@ const Product=db.define('Product',{
 })
 
 const Cart=db.define('Cart',{
-    productId:{
-        type:Sequelize.NUMBER,
-        allowNull:false
-    },
     quantity: {
         type:Sequelize.NUMBER,
         allowNull:false
     }
 })
+
 Vendor.hasMany(Product,{onDelete:'cascade'});
 Product.belongsTo(Vendor);
-Cart.hasMany(Product);
-Product.belongsTo(Cart);
+Product.hasMany(Cart,{onDelete:'cascade'});
+Cart.belongsTo(Product);
 User.hasMany(Cart,{onDelete:'cascade'});
 Cart.belongsTo(User);
 
+//db.sync().then(()=>console.log("Database created")).catch(()=>console.log("Error Occurred"))
 module.exports={
     db,User,Vendor,Product,Cart
 }

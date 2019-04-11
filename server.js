@@ -46,6 +46,15 @@ app.post('/vendors', async function (req, res) {
         res.send({ success: false, err: e.message })
     }
 })
+//delete a vendor
+app.delete('/vendors', async function (req, res) {
+    const result = await Vendor.destroy({
+        where: {
+            id: req.body.id
+        }
+    })
+    res.send({success:true})
+})
 //get all products
 app.get('/products', async function (req, res) {
     const prod = await Product.findAll({
@@ -67,6 +76,12 @@ app.post('/products', async function (req, res) {
         res.send({ success: false, err: e.message })
     }
 })
+//get all users
+app.get('/users',async function(req,res){
+    const users= await User.findAll()
+    res.send(users)
+})
+
 //get a user
 app.get('/users/:userName', async function (req, res) {
 
@@ -77,13 +92,13 @@ app.get('/users/:userName', async function (req, res) {
     })
     res.send(user)
 })
-app.delete('/deleteUser/:id', async function (req, res) {
-    await User.destroy({
+//delete a user
+app.delete('/deleteUser/', async function (req, res) {
+    const result = await User.destroy({
         where: {
-            id: req.params.id
+            id: req.body.id
         }
     })
-    res.send(User.findAll())
 })
 //add a new user
 app.post('/users', async function (req, res) {
@@ -108,16 +123,30 @@ app.get('/cart/', async function (req, res) {
     res.send(result)
 })
 
-app.get('/cart/:id', async function (req, res) {
-    const user = req.params.id
-
+//get all products from cart for a user
+app.post('/cart/getItems', async function (req, res) {   
+    const user = req.body.id
     const result = await Cart.findAll({
+        include :[{model:Product}] ,
         where: {
             UserId: user
         }
+    }).then((cart)=>{
+        res.status(200).send(cart)
+    }).catch((error) =>{
+        res.status(501).send(error)
     })
 
-    res.send(result)
+    
+})
+
+app.delete('/products', async function (req, res) {
+    const result = await Product.destroy({
+        where: {
+            id: req.body.id
+        }
+    })
+    res.send({success:true})
 })
 //add item into a cart
 app.post('/cart', async function (req, res) {
@@ -127,13 +156,13 @@ app.post('/cart', async function (req, res) {
         let result = await Cart.findOne({
             where: {
                 UserId: id,
-                productId: pId
+                ProductId: pId
             }
         })
         if (result == null) {
             await Cart.create({
                 UserId: id,
-                productId: pId,
+                ProductId: pId,
                 quantity: 1
             })
             res.send({ success: true, message: "One new record added!!" })
@@ -144,7 +173,7 @@ app.post('/cart', async function (req, res) {
                 {
                     where: {
                         UserId: id,
-                        productId: pId
+                        ProductId: pId
                     }
                 }
             ).then(() => { })

@@ -21,7 +21,7 @@ function refreshProductList() {
           <td class="col-sm-2"> ${product.quantity}</td>
           <td class="col-sm-2"> ${product.price}</td>
           <td class="col-sm-2"> 
-            <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-primary">Delete</button>
+          <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-primary">Delete</button>
           </td>
         </tr>`
       )
@@ -32,17 +32,20 @@ function refreshProductList() {
 }
 refreshProductList()
 function deleteProduct(productId){
-  $.alert("Do You Really Want to delete it?")
-  $.ajax({
-    url:'/products',
-    type: 'DELETE',
-    data :{
-      id : productId
-    },
-    success : function(result){
-      refreshProductList()
-    }
-  })
+  const choice = confirm("Do You Really Want to delete it?")
+  if(choice == true){
+    $.ajax({
+      url:'/products',
+      type: 'DELETE',
+      data :{
+        id : productId
+      },
+      success : function(){
+        console.log("In success")
+        refreshProductList()
+      }
+    })
+  }
 }
 $(() => {
   $('#addProduct').click(() => {

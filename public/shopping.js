@@ -1,6 +1,6 @@
 function createProductCard(product) {
     return $(`
-            <div class="col-3 card m-3 p-4">
+            <div class="col-sm-2 card m-1 p-3">
                 <h4 class="productName">${product.productName}</h4>
                 <div class="vendorName">${product.Vendor.name}</div>
                 <div class="row">
