@@ -199,7 +199,9 @@ app.post('/cart', async function (req, res) {
         res.send({ success: false, message: e.message })
     }
 })
-
+const PORT = process.env.PORT || 2345;
 db.sync().then(() =>
-    app.listen(8880)
+    app.listen(PORT,()=>{
+        console.log('server is running at '+'http://localhost:'+PORT)
+    })
 )
