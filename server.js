@@ -85,12 +85,21 @@ app.get('/users',async function(req,res){
 //get a user
 app.get('/users/:userName', async function (req, res) {
 
-    const user = await User.findOne({
-        where: {
-            name: req.params.userName
+    try{
+        const user = await User.findOne({
+            where: {
+                name: req.params.userName
+            }
+        })
+        if(user==null){
+            throw "User does not exists!"
+        }else{
+            res.send({success:true,message:user})
         }
-    })
-    res.send(user)
+    }catch(e){
+        console.log(e)
+        res.send({success:false, message : e})
+    }
 })
 //delete a user
 app.delete('/deleteUser/', async function (req, res) {
