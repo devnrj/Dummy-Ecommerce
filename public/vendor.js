@@ -6,7 +6,7 @@ function refreshList() {
             <tr class='list-group-item'>
               <td class="col-sm-2"> ${vendor.name}</td>
               <td class="col-sm-2">
-                <button id="${vendor.id}" onclick="deleteVendor(${vendor.id})" type="button" class="btn btn-primary">Delete</button>
+                <button id="${vendor.id}" onclick="deleteVendor(${vendor.id})" type="button" class="btn btn-danger">Delete</button>
               </td>
             </tr>`
       )

@@ -21,7 +21,7 @@ function refreshProductList() {
           <td class="col-sm-2"> ${product.quantity}</td>
           <td class="col-sm-2"> ${product.price}</td>
           <td class="col-sm-2"> 
-          <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-primary">Delete</button>
+          <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-danger">Delete</button>
           </td>
         </tr>`
       )

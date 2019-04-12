@@ -1,6 +1,6 @@
 function createProductCard(product) {
     return $(`
-            <div class="col-sm-2 card m-1 p-3">
+            <div class="col-sm-2 card m-2 p-4">
                 <h4 class="productName">${product.productName}</h4>
                 <div class="vendorName">${product.Vendor.name}</div>
                 <div class="row">
@@ -65,7 +65,7 @@ function addCart(product){
             },
             (data)=>{
                 console.log(data)
-                alert("Product"+data.message+"added to cart")
+                alert(data.message)
             })
         })
     }

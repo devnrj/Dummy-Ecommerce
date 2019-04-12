@@ -148,6 +148,22 @@ app.delete('/products', async function (req, res) {
     })
     res.send({success:true})
 })
+
+//delete product from cart for a specific user
+app.delete('/cart', async function (req, res) {
+    
+    try{
+        await Cart.destroy({
+            where: {
+                id : req.body.id
+            }
+        })
+        res.send({success:true})
+    }catch(e){
+        console.log(e)
+        res.send({successs:false,message:e.message})
+    }
+})
 //add item into a cart
 app.post('/cart', async function (req, res) {
     const id = req.body.userId
