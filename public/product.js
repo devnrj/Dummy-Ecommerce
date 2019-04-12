@@ -41,7 +41,6 @@ function deleteProduct(productId){
         id : productId
       },
       success : function(){
-        console.log("In success")
         refreshProductList()
       }
     })
