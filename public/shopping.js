@@ -29,7 +29,7 @@ $(() => {
         }else{
             $.get('/users/' + $("#userName").val(),
             (user) => {
-                if (!user) {
+                if (user.success==false) {
                     $.post('/users',
                         {
                             userName: $("#userName").val()
@@ -59,7 +59,7 @@ function addCart(product){
         $.get('/users/'+user,
         (user)=>{
             $.post('/cart',{
-                userId:user.id,
+                userId:user.message.id,
                 productId:product,
                 quantity:1
             },

@@ -84,22 +84,17 @@ app.get('/users',async function(req,res){
 
 //get a user
 app.get('/users/:userName', async function (req, res) {
-
-    try{
         const user = await User.findOne({
             where: {
                 name: req.params.userName
             }
         })
         if(user==null){
-            throw "User does not exists!"
+            res.send({success : false,message:"User does not exists!"})
+
         }else{
             res.send({success:true,message:user})
         }
-    }catch(e){
-        console.log(e)
-        res.send({success:false, message : e})
-    }
 })
 //delete a user
 app.delete('/deleteUser/', async function (req, res) {
@@ -112,7 +107,6 @@ app.delete('/deleteUser/', async function (req, res) {
 //add a new user
 app.post('/users', async function (req, res) {
     try {
-
         if (req.body.userName.trim() == "") {
             res.send({ success: false, message: "Username can't be empty" })
         } else {
@@ -169,9 +163,60 @@ app.delete('/cart', async function (req, res) {
         })
         res.send({success:true})
     }catch(e){
-        console.log(e)
         res.send({successs:false,message:e.message})
     }
+})
+//increment quantity of a product in cart
+app.post('/cart/increment', async (req,res)=>{
+    const cartId = req.body.id
+    await Cart.increment({ quantity: 1 } ,
+    {  where: {
+        id:cartId
+        }
+    })
+    .then((cart) => {
+    res.status(200).send("Quantity of "+cartId+" updated")
+    })
+    .catch((error) => {
+    res.status(500).send(error)
+    })
+})
+
+//decrement quantity of a product in cart
+app.post('/cart/decrement', async(req,res) => {
+    await Cart.findOne({
+        where: {
+            id:req.body.id,
+            quantity:1
+        }
+    }). then(async (cart)=> {
+        if(cart != null){
+            await Cart.destroy( {
+            where: {
+                id:req.body.id
+              }
+            }).then(() => {
+                res.status(200).send("Product removed from cart")
+            }).catch((error) => {
+                res.status(500).send(error);
+            })
+        } else{
+            await Cart.decrement({ quantity: 1 } ,
+                {  where: {
+                    id:req.body.id
+                  }
+                })
+                .then((cart) => {
+                res.status(200).send("Product decrement from cart")
+                })
+                .catch((error) => {
+                res.status(500).send(error)
+                })
+        }
+    }).catch((error)=>{
+        res.status(500).send(error)
+    })
+    
 })
 //add item into a cart
 app.post('/cart', async function (req, res) {

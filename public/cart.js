@@ -1,11 +1,11 @@
-function deleteProduct(productId){
+function deleteProduct(cartId){
   const choice = confirm("Do You Really Want to delete it?")
   if(choice == true){
     $.ajax({
       url:'/cart',
       type: 'DELETE',
       data :{
-        id : productId
+        id : cartId
       },
       success : function(){
         refreshProductList()
@@ -13,6 +13,29 @@ function deleteProduct(productId){
     })
   }
 }
+
+function increment(cartId){
+  $.post("/cart/increment",
+  {
+    id : cartId
+  },
+  (data)=>{
+    console.log(data)
+    refreshProductList()
+  })
+}
+
+function decrement(cartId){
+  $.post("/cart/decrement",
+  {
+    id : cartId
+  },
+  (data)=>{
+    console.log(data)
+    refreshProductList()
+  })
+}
+
 function refreshProductList(){
   console.log("in login")
   $.get("/users/"+$("#userName").val(),(user)=>{
@@ -24,15 +47,17 @@ function refreshProductList(){
                 $('#productList').empty()
                 let i = 1
                 console.log(data)
-                for (let product of data) {
+                for (let cart of data) {
                   $('#productList').append(
                     `<tr>
                       <th>${i++}</th>
-                      <td> ${product.Product.productName}</td>
-                      <td> ${product.quantity}</td>
-                      <td> ${product.Product.price}</td>
+                      <td> ${cart.Product.productName}</td>
+                      <td> ${cart.quantity}</td>
+                      <td> ${cart.Product.price}</td>
                       <td> 
-                        <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-danger">Delete</button>
+                      <i id="${cart.id}" class="fas fa-plus-circle" onclick="increment(${cart.id})"></i>
+                      <i id="${cart.id}" class="fas fa-minus-circle" onclick="decrement(${cart.id})"></i>
+                        <button id="${cart.id}" onclick="deleteProduct(${cart.id})" type="button" class="btn btn-danger">Delete</button>
                       </td>
                     </tr>`
                   )
