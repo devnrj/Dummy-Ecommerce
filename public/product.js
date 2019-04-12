@@ -14,14 +14,14 @@ function refreshProductList() {
     let i = 1
     for (let product of data) {
       $('#productList').append(
-        `<tr class='row'>
-          <th scope="row" class="col-sm-2">${i++}</th>
-          <td class="col-sm-2"> ${product.productName}</td>
-          <td class="col-sm-2 center"> ${product.Vendor.name}</td>
-          <td class="col-sm-2"> ${product.quantity}</td>
-          <td class="col-sm-2"> ${product.price}</td>
-          <td class="col-sm-2"> 
-          <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-danger">Delete</button>
+        `<tr>
+          <th>${i++}</th>
+          <td> ${product.productName}</td>
+          <td> ${product.Vendor.name}</td>
+          <td> ${product.quantity}</td>
+          <td> ${product.price}</td>
+          <td> 
+            <button id="${product.id}" onclick="deleteProduct(${product.id})" type="button" class="btn btn-danger">Delete</button>
           </td>
         </tr>`
       )
