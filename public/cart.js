@@ -19,6 +19,7 @@ function refreshProductList(){
           $.post("/cart/getItems/",
           {id : user.id},
           (data)=>{
+            if(data.length>0){
               $('#productList').empty()
               let i = 1
               console.log(data)
@@ -35,6 +36,10 @@ function refreshProductList(){
                   </tr>`
                 )
               }
+            }else{
+              alert("No such user exists!")
+            }
+              
           })
       }
   )
